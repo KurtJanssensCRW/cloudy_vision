@@ -41,6 +41,9 @@ def call_vision_api(image_filename, api_keys):
               "type": "SAFE_SEARCH_DETECTION",
               "maxResults": 10
             },
+            {
+              "type": "TEXT_DETECTION",
+            },
           ]
         }
       ]
@@ -70,5 +73,10 @@ def get_standardized_result(api_result):
         output['logo_tags'] = []
         for annotation in api_result['logoAnnotations']:
             output['logo_tags'].append((annotation['description'], annotation['score']))
+
+    if 'textAnnotations' in api_result:
+        output['text_tags'] = []
+        for annotation in api_result['textAnnotations']:
+            output['text_tags'].append((annotation['description'], 1.0))
 
     return output
